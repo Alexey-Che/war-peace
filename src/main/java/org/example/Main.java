@@ -23,7 +23,7 @@ public class Main {
             int chunkSize = text.length() / NUM_THREADS;
             val occurrences = findOccurrences(text, SEARCH_TEXT, chunkSize);
 
-            System.out.println("Количество найденных вхождений - \"" + SEARCH_TEXT + "\" в тексте: "   + occurrences.size());
+            System.out.println("Количество найденных вхождений - \"" + SEARCH_TEXT + "\" в тексте: " + occurrences.size());
             System.out.println(occurrences);
         }
 
@@ -33,8 +33,9 @@ public class Main {
     /**
      * Получение списка индексов всех вхождений искомого слова в тексте,
      * текст разбивается на фрагменты, в каждом из которых будет произведен поиск вхождений
-     * @param text текст для поиска
-     * @param word поисковая строка
+     *
+     * @param text      текст для поиска
+     * @param word      поисковая строка
      * @param chunkSize размер фрагмента текста
      * @return список индексов вхождений искомого слова в тексте
      */
@@ -55,6 +56,7 @@ public class Main {
                 }
                 return occurrences;
             };
+
             futures.add(EXECUTOR_SERVICE.submit(task));
         }
 
