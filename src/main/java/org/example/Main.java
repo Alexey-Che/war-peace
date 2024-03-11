@@ -40,7 +40,7 @@ public class Main {
      * @return список индексов вхождений искомого слова в тексте
      */
     public static List<Integer> findOccurrences(String text, String word, int chunkSize) {
-        long currentTimeMillis = System.currentTimeMillis();
+        val currentTimeMillis = System.currentTimeMillis();
         List<Future<List<Integer>>> futures = new ArrayList<>();
 
         for (int i = 0; i < NUM_THREADS; i++) {
