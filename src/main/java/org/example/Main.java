@@ -87,6 +87,9 @@ public class Main {
         return text;
     }
 
+    /**
+     * Завершение работы пула потоков
+     */
     public static void shutdownExecutorService() {
         EXECUTOR_SERVICE.shutdown();
     }
