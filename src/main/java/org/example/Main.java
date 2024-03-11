@@ -20,8 +20,7 @@ public class Main {
         val text = getTextFromFile(FILE_PATH);
 
         if (!text.isBlank()) {
-            val chunkSize = text.length() / NUM_THREADS;
-            val occurrences = findOccurrences(text, SEARCH_TEXT, chunkSize);
+            val occurrences = findOccurrences(text, SEARCH_TEXT);
 
             System.out.println("Количество найденных вхождений - \"" + SEARCH_TEXT + "\" в тексте: " + occurrences.size());
             System.out.println(occurrences);
@@ -36,12 +35,13 @@ public class Main {
      *
      * @param text      текст для поиска
      * @param word      поисковая строка
-     * @param chunkSize размер фрагмента текста
      * @return список индексов вхождений искомого слова в тексте
      */
-    public static List<Integer> findOccurrences(String text, String word, int chunkSize) {
+    public static List<Integer> findOccurrences(String text, String word) {
         val currentTimeMillis = System.currentTimeMillis();
         List<Future<List<Integer>>> futures = new ArrayList<>();
+
+        val chunkSize = text.length() / NUM_THREADS;
 
         for (int i = 0; i < NUM_THREADS; i++) {
             val start = i * chunkSize;
