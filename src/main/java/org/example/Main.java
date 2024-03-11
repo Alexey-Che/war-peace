@@ -20,7 +20,7 @@ public class Main {
         val text = getTextFromFile(FILE_PATH);
 
         if (!text.isBlank()) {
-            int chunkSize = text.length() / NUM_THREADS;
+            val chunkSize = text.length() / NUM_THREADS;
             val occurrences = findOccurrences(text, SEARCH_TEXT, chunkSize);
 
             System.out.println("Количество найденных вхождений - \"" + SEARCH_TEXT + "\" в тексте: " + occurrences.size());
@@ -72,6 +72,11 @@ public class Main {
         return allOccurrences;
     }
 
+    /**
+     * Чтение текста из файла
+     * @param path путь до текстового файла
+     * @return текст из файла
+     */
     public static String getTextFromFile(String path) {
         String text = null;
         try {
