@@ -16,7 +16,7 @@ public class Main {
     public static final String FILE_PATH = "war_and_peace.txt";
     public static final String SEARCH_TEXT = "Пьер";
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
         val text = getTextFromFile(FILE_PATH);
 
         if (!text.isBlank()) {
@@ -37,9 +37,9 @@ public class Main {
      * @param word      поисковая строка
      * @return список индексов вхождений искомого слова в тексте
      */
-    public static List<Integer> findOccurrences(String text, String word) {
+    public static List<Integer> findOccurrences(String text, String word) throws InterruptedException, ExecutionException {
         val currentTimeMillis = System.currentTimeMillis();
-        List<Future<List<Integer>>> futures = new ArrayList<>();
+        val ecs = new ExecutorCompletionService<List<Integer>>(EXECUTOR_SERVICE);
 
         val chunkSize = text.length() / NUM_THREADS;
 
@@ -56,17 +56,12 @@ public class Main {
                 }
                 return occurrences;
             };
-
-            futures.add(EXECUTOR_SERVICE.submit(task));
+            ecs.submit(task);
         }
 
         List<Integer> allOccurrences = new ArrayList<>();
-        for (var future : futures) {
-            try {
-                allOccurrences.addAll(future.get());
-            } catch (InterruptedException | ExecutionException e) {
-                System.out.println(e.getMessage());
-            }
+        for (int i = 0; i < NUM_THREADS; i++) {
+            allOccurrences.addAll(ecs.take().get());
         }
         System.out.println("Время поиска в миллисекундах: " + (System.currentTimeMillis() - currentTimeMillis));
         return allOccurrences;
